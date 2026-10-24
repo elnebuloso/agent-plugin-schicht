@@ -1,0 +1,12 @@
+{
+  "name": "schicht",
+  "version": "0.1.0",
+  "description": "Agent-Plugin für tägliche Workflows: Rituale und Werkzeuge rund um die Arbeit mit Agents.",
+  "author": {
+    "name": "elnebuloso",
+    "url": "https://github.com/elnebuloso"
+  },
+  "homepage": "https://github.com/elnebuloso/agent-plugin-schicht",
+  "repository": "https://github.com/elnebuloso/agent-plugin-schicht",
+  "license": "MIT"
+}

@@ -1,0 +1,2 @@
+# Zeilenenden normalisieren: Text immer mit LF, Binärdateien erkennt git selbst
+* text=auto eol=lf

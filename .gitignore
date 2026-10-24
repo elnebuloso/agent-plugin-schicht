@@ -1,0 +1,15 @@
+# Claude Code – lokaler State
+.claude/settings.json
+.claude/settings.local.json
+
+# Lokale Artefakte von Agent-Tools
+.impeccable/
+.superpowers/
+
+# Editor / Betriebssystem
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*~
+*.swp
