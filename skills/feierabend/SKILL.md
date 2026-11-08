@@ -20,7 +20,9 @@ description: >-
 
 Der Nutzer will die nächsten Schritte in einer frischen Session mit frischem
 Context starten. Deine Aufgabe ist es, die aktuelle Session sauber zu übergeben –
-**aber zuerst zu prüfen, ob überhaupt eine Übergabe nötig ist.**
+**ohne Rückfragen, in so wenigen Schritten wie möglich.** Jede Nachricht liest
+den ganzen Session-Context neu ein, und der ist am Feierabend groß. Jede
+Rückfrage und jeder Tool-Call kostet deshalb viel.
 
 Die Handoff-Datei ist standardmäßig `docs/HANDOFF.md`. Hat der Nutzer beim
 Aufruf einen anderen Pfad genannt, nimm den stattdessen. Fehlt das
@@ -31,71 +33,60 @@ aus (`HANDOFF.md` riecht nach root wie `README.md`, gehört hier aber unter
 Der Leitgedanke: Stell dir vor, du machst gleich Feierabend und startest morgen
 in einen neuen Arbeitstag. Alles Wichtige soll vor Augen liegen, der
 Arbeitsplatz besenrein sein – damit dein Morgen-Ich ohne Rückfragen direkt
-weiterarbeiten kann. Genau deshalb gibt es eine eiserne Regel, die alles
-andere überschreibt:
+weiterarbeiten kann. Dafür gilt eine Regel, die alles andere überschreibt:
 
-> **Du dokumentierst eigenständig, aber du entsorgst nichts eigenmächtig.**
-> Jede Löschung, jedes Leeren einer Datei, jedes Verwerfen läuft erst als
-> Vorschlag über den Nutzer – dann handelst du. Das gilt ausnahmslos.
+> **Die Übergabe-Datei räumst du eigenständig auf, andere Dateien entsorgst du
+> nie.** Die Handoff-Datei darfst du ohne Rückfrage neu schreiben oder leeren –
+> ihre alte Fassung liegt in git. Jede andere Datei löschst du nicht, auch keine
+> lose oder untrackte: Du nennst sie in der Abschlussnachricht, der Nutzer
+> entscheidet.
+
+## Was du liest
+
+Nur zwei Dinge, beide parallel in einem einzigen Schritt:
+
+- die bestehende Handoff-Datei (falls vorhanden),
+- `git status`.
+
+Sonst nichts: keine Suche im Repository, keine weiteren Dateien, keine
+Subagents. Die Quelle der Übergabe ist diese Session – du kennst sie bereits.
+„Besenrein“ bezieht sich nur auf das, was die Session selbst angelegt hat oder
+was `git status` zeigt.
 
 ## Ablauf
 
-Arbeite die folgenden Schritte der Reihe nach ab. Schritt 1 ist ein
-Verzweigungspunkt: Fällt die Entscheidung gegen eine Übergabe, springst du direkt
-zu Schritt 5.
+Drei Schritte, ohne auf den Nutzer zu warten.
 
-### 1. Einschätzen, ob eine Übergabe überhaupt nötig ist
+### 1. Einschätzen und Stolperfallen finden
 
-Du kennst diese Session am besten – nutze das. Schätze ehrlich ein:
+Das passiert im Kopf, ohne Ausgabe an den Nutzer.
 
-- **Kein Handoff nötig** – z. B. nichts Wesentliches passiert, alles bereits
-  committet oder dokumentiert, keine offenen Enden. Dann schlag vor, keine
-  Übergabe zu schreiben. Liegt die Handoff-Datei noch mit Inhalt aus einer
-  früheren Session herum, schlag vor, sie zu leeren – sonst läuft das Morgen-Ich
-  in veraltete Infos. (Leeren ist eine Entsorgung → Vorschlag, dann Go abwarten.)
-- **Handoff sinnvoll** – dann skizziere dem Nutzer stichpunktartig, was hinein
-  gehört.
+**Ist eine Übergabe nötig?** Kein Handoff ist nötig, wenn nichts Wesentliches
+passiert ist, alles bereits committet oder dokumentiert ist und keine offenen
+Enden bleiben. Sonst ist er nötig.
 
-In beiden Fällen: **warte auf die Entscheidung des Nutzers**, bevor du etwas
-schreibst oder löschst.
+**Stolperfallen** sind das Herzstück: Stellen, auf denen das Morgen-Ich
+ausrutschen könnte. Such sie in genau zwei Durchgängen:
 
-### 2. Die Übergabe-Datei auf Stand bringen
+1. **Suchen:** Geh die Session nach diesen Mustern durch:
+   - unausgesprochene Annahmen,
+   - halbfertige Entscheidungen,
+   - Workarounds, die wie Lösungen aussehen,
+   - Dinge, die nur in deinem Kopf existieren, aber nirgendwo stehen.
+2. **Gegenprüfen aus Sicht des Morgen-Ichs:** Lies die geplante Übergabe wie
+   jemand, der diese Session nicht kennt. Wo würdest du stolpern? Was müsstest
+   du als Erstes fragen? Was du dabei findest, gehört hinein.
 
-Wenn der Nutzer sich für eine Übergabe entschieden hat: Bring `docs/HANDOFF.md`
-(oder den genannten Pfad) so in Form, dass sie alles für einen frischen Start
-enthält. Wirf raus, was obsolet
-ist; ergänze, was fehlt – insbesondere Findings aus dieser Session, die für die
-nächste relevant sind. Schreiben darfst du eigenständig; jede Löschung von
-Bestehendem ist eine Entsorgung und läuft über die eiserne Regel oben: erst
-vorlegen, dann handeln.
+Danach ist Schluss – ein dritter gleicher Durchgang findet selten Neues. Was
+für morgen keine Rolle spielt, lässt du weg.
 
-### 3. Die Stolperfallen finden
+### 2. Die Übergabe in einem Zug schreiben
 
-Das ist das Herzstück. Geh die Session gezielt nach Stellen durch, auf denen das
-Morgen-Ich ausrutschen könnte:
-
-- unausgesprochene Annahmen,
-- halbfertige Entscheidungen,
-- Workarounds, die wie Lösungen aussehen,
-- Dinge, die nur in deinem Kopf existieren, aber nirgendwo stehen.
-
-**Mach mehrere Durchgänge** und hör erst auf, wenn ein kompletter Durchgang keine
-neue Stolperfalle mehr zutage fördert. Eine einzelne Runde übersieht den Long
-Tail – die unauffälligen tauchen oft erst auf, wenn die offensichtlichen weg
-sind.
-
-Leg jede gefundene Stolperfalle mit deiner Einschätzung vor – **dokumentieren oder
-entsorgen?** – und warte auf die Entscheidung, bevor du handelst. Nichts bleibt
-auf dem Boden liegen, aber was weg darf, bestimmt der Nutzer.
-
-### 4. Besenrein übergeben
-
-Schreib die Übergabe nach `docs/HANDOFF.md` (oder den genannten Pfad) so, dass
-der morgige Start ohne Rückfragen gelingt, und hinterlass den Arbeitsplatz
-besenrein: keine verwaisten Notizen, keine toten
-Dateien, keine offenen Enden, die nirgendwo festgehalten sind. Dokumentieren
-eigenständig – alles, was du dabei löschen oder entsorgen willst, läuft über
-denselben Weg wie die Stolperfallen: erst vorlegen, dann handeln.
+**Handoff nötig:** Schreib die Datei **komplett neu**, ergänze sie nicht. Aus
+der alten Fassung übernimmst du nur, was noch offen ist; Erledigtes und
+Veraltetes fällt weg. Halte sie **so kurz wie möglich** – Faustregel: eine
+Bildschirmseite, Stichpunkte statt Prosa, keine Chronik der Session. Eine lange
+Übergabe versteckt das Wichtige und kostet am Morgen Zeit.
 
 Eine brauchbare Übergabe beantwortet ohne Nachfragen: *Wo stehen wir? Was steht
 als Nächstes an? Welche Entscheidungen sind noch offen? Wo lauern die
@@ -109,10 +100,18 @@ Session wirklich gebraucht hat.
 > ohnehin. Die Übergabe trägt, was git nicht weiß: nächste Schritte, offene
 > Entscheidungen, Stolperfallen.
 
-### 5. Den Start-Prompt mitgeben
+**Kein Handoff nötig:** Liegt die Handoff-Datei noch mit Inhalt aus einer
+früheren Session herum, leere sie – sonst läuft das Morgen-Ich in veraltete
+Infos. Gibt es keine oder ist sie leer, schreibst du nichts.
 
-Gib zum Abschluss den kurzen Prompt, mit dem morgen der neue Tag startet – knapp,
-aber genug, um direkt Schwung zu holen.
+### 3. Abschlussnachricht
 
-Haben wir uns **gegen** eine Übergabe entschieden, entfällt der Prompt –
-bestätige stattdessen kurz den besenreinen Zustand.
+Kurz und in einer Nachricht:
+
+- was du geschrieben oder geleert hast,
+- lose oder untrackte Dateien aus `git status`, die nach Aufräumen aussehen –
+  nur nennen, nicht löschen,
+- **mit Übergabe:** den kurzen Prompt, mit dem morgen der neue Tag startet –
+  knapp, aber genug, um direkt Schwung zu holen,
+- **ohne Übergabe:** kein Prompt, sondern eine kurze Bestätigung des
+  besenreinen Zustands.

@@ -1,10 +1,11 @@
 ---
 id: TASK-1
 title: 'Make `/schicht:feierabend` cheaper to run'
-status: To Do
-assignee: []
+status: Done
+assignee:
+  - '@claude'
 created_date: '2026-11-08 13:25'
-updated_date: '2026-11-08 13:25'
+updated_date: '2026-11-08 13:43'
 labels: []
 dependencies: []
 references:
@@ -34,11 +35,37 @@ Rejected: setting a smaller model in the skill's frontmatter (`model:`). Switchi
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 The pitfall search is bounded: one thorough pass and one check pass, no open-ended repetition
-- [ ] #2 The skill names what it may read (the handoff file and `git status`) and rules out repository search and subagents
-- [ ] #3 The decline path (no handoff needed) and the start prompt at the end still work as before
-- [ ] #4 The `feierabend` section of `README.md` matches the new behaviour
-- [ ] #5 The version in `.claude-plugin/plugin.json` is bumped according to the versioning rules in `CLAUDE.md`
-- [ ] #6 The skill waits for the user at most once before writing the handoff, unless the user's answer itself raises a new question
-- [ ] #7 The rule that nothing is deleted, emptied or discarded without the user's approval stays unchanged
+- [x] #1 Die Stolperfallen-Suche ist begrenzt: ein Suchdurchgang und ein Gegenprüf-Durchgang aus Sicht des Morgen-Ichs, keine offene Wiederholung
+- [x] #2 Der Skill nennt, was er lesen darf (die Handoff-Datei und `git status`), und schließt Repo-Suche und Subagents aus
+- [x] #3 Ohne nötigen Handoff endet der Skill ohne Start-Prompt mit einer Bestätigung; mit Handoff gibt er am Ende den Start-Prompt
+- [x] #4 Der `feierabend`-Abschnitt und das Grundprinzip in der `README.md` passen zum neuen Verhalten
+- [x] #5 Die Version in `.claude-plugin/plugin.json` ist nach den Versionsregeln in `CLAUDE.md` erhöht
+- [x] #6 Der Skill wartet nicht auf den Nutzer und arbeitet ohne Rückfrage bis zum Abschluss
+- [x] #7 Der Skill schreibt oder leert nur seine eigene Handoff-Datei eigenständig; andere Dateien löscht er nie, er nennt sie
+- [x] #8 Die Übergabe wird jedes Mal neu geschrieben statt ergänzt und so kurz wie möglich gehalten
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. Leseregel: nur Handoff-Datei und git status, parallel, keine Repo-Suche/Subagents.
+2. Ablauf auf 3 Schritte ohne Wartepunkt: einschätzen + zwei Stolperfallen-Durchgänge (Kategorien, dann Morgen-Ich-Gegenprüfung) → Übergabe in einem Zug neu und kurz schreiben (bzw. leeren) → Abschlussnachricht mit losen Dateien und Start-Prompt.
+3. Eiserne Regel für diesen Skill: Handoff-Datei frei neu schreiben/leeren (alte Fassung in git), andere Dateien nie löschen, nur nennen.
+4. README: Feierabend-Abschnitt und Ausnahme im Grundprinzip.
+5. Version 0.1.0 → 0.2.0 (feat).
+6. claude plugin validate .
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Richtung geändert (Entscheidung des Autors am 2026-11-08): Statt einer gebündelten Rückfrage keine Rückfrage mehr. Der Autor prüft die Vorschläge kaum noch und will dem Skill Freiheit beim Aufräumen geben. Die Stolperfallen-Suche bleibt, weil sie Mehrwert bringt. Die HANDOFF.md wuchs bisher stark, weil sie ergänzt statt neu geschrieben wurde. Die Freiheit zu entsorgen gilt nur für die eigene Handoff-Datei (in git wiederherstellbar); untrackte Dateien werden nur genannt, weil ihre Löschung endgültig wäre.
+
+Verifikation: claude plugin validate . bestanden (nur die bestehenden Warnungen: CLAUDE.md im Root, kein Icon). Testlauf per claude -p in einem Wegwerf-Repo mit veralteter HANDOFF.md und untrackter Datei: 5 Turns, ein Bash-Call (Handoff + git status zusammen), ein Write, keine Rückfrage. Veraltete Einträge entfernt, untrackte Datei nur genannt, Start-Prompt ausgegeben. Der Weg ohne Handoff wurde nicht live getestet, nur im Text geprüft.
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+feierabend läuft jetzt ohne Rückfrage durch: liest nur die Handoff-Datei und git status, sucht Stolperfallen in zwei begrenzten Durchgängen (Kategorien, dann Gegenprüfung aus Sicht des Morgen-Ichs), schreibt die Übergabe in einem Zug neu und kurz (statt sie zu ergänzen) und endet mit einer Abschlussnachricht samt Start-Prompt. Die eiserne Regel hat für diesen Skill eine Ausnahme: Die eigene Handoff-Datei darf er ohne Rückfrage neu schreiben oder leeren (alte Fassung in git), andere Dateien nennt er nur. README (Abschnitt Feierabend und Grundprinzip) ist angepasst, Version 0.2.0. Testlauf: 5 Turns statt im Median 12,5. Risiko: Eine nie committete alte HANDOFF.md ist nach dem Neuschreiben weg, soweit ihr Inhalt nicht übernommen wurde.
+<!-- SECTION:FINAL_SUMMARY:END -->

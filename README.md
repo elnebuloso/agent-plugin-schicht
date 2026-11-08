@@ -41,12 +41,15 @@ in `docs/ratschlag/`. Das Verfahren folgt Andrej Karpathys Idee eines „LLM Cou
 
 ### Feierabend – `/schicht:feierabend`
 
-Sauberes Arbeitsende: schreibt eine Session-Übergabe nach `docs/HANDOFF.md`,
-spürt offene Enden und Stolperfallen auf und gibt einen
-Start-Prompt für morgen mit.
+Sauberes Arbeitsende ohne Rückfragen: spürt offene Enden und Stolperfallen
+auf, schreibt die Session-Übergabe nach `docs/HANDOFF.md` jedes Mal neu und so
+kurz wie möglich und gibt einen Start-Prompt für morgen mit. Liest dafür nur die
+alte Übergabe und `git status`.
 
 ## Grundprinzip
 
 Alle Skills folgen derselben eisernen Regel: **Es wird eigenständig
 dokumentiert, aber nichts eigenmächtig entsorgt.** Jede Löschung läuft erst als
-Vorschlag über den Nutzer.
+Vorschlag über den Nutzer. Einzige Ausnahme: `feierabend` schreibt seine eigene
+Übergabe ohne Rückfrage neu oder leert sie – die alte Fassung liegt in git.
+Andere Dateien nennt er nur.
